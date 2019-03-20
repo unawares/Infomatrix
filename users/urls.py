@@ -11,4 +11,5 @@ from rest_framework_jwt.views import (
 urlpatterns = [
     path('obtain/', obtain_jwt_token),
     path('refresh/', refresh_jwt_token),
+    path('verify/', verify_jwt_token),
 ]
