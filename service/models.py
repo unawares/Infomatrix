@@ -14,26 +14,32 @@ from foods.models import Food
 
 # Create your models here.
 
-
-class FoodService(models.Model):
+class Service(models.Model):
 
     client = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
-        related_name='food_service_clients'
+        related_name='services'
     )
+    active = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract=True
+
+
+class FoodService(Service):
+
     food = models.ForeignKey(
         'foods.Food',
         on_delete=models.CASCADE,
-        related_name='food_service_clients'
+        related_name='services'
     )
     amount = models.IntegerField(
         blank=False,
         null=False,
         default=1
     )
-    active = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('client', 'food',)
@@ -44,7 +50,7 @@ class FoodServiceOrder(models.Model):
     food_service = models.ForeignKey(
         FoodService,
         on_delete=models.CASCADE,
-        related_name='food_service_orders'
+        related_name='orders'
     )
     created = models.DateTimeField(auto_now_add=True)
 
