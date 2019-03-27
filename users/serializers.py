@@ -25,12 +25,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserCodeSerializer(serializers.ModelSerializer):
 
-    user = UserSerializer()
-    services = serializers.SerializerMethodField()
+    user = UserSerializer(read_only=True)
+    services = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = UserCode
         fields = '__all__'
+        read_only_fields = ('id', 'created', 'updated', 'active',)
 
     def get_services(self, obj):
         return {

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.exceptions import PermissionDenied
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 
@@ -59,6 +59,6 @@ class FoodServiceOrder(models.Model):
 @receiver(pre_save, sender=FoodServiceOrder)
 def food_service_item_pre_save_handler(sender, instance, *args, **kwargs):
     if not instance.food_service.active:
-        raise Exception('Can not make an order. Food service is not activated')
-    if instance.food_service.food_service_orders.count() >= instance.food_service.amount:
-        raise Exception('Can not make an order. Number of max allowed orders is reached')
+        raise PermissionDenied()
+    if instance.food_service.orders.count() >= instance.food_service.amount:
+        raise PermissionDenied()

@@ -27,6 +27,12 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+    class Meta(AbstractUser.Meta):
+
+        permissions = (
+            ('manager', _('Can access the manager features')),
+        )
 
 
 class UserCode(models.Model):
